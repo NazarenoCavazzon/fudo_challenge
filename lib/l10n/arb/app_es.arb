@@ -1,7 +1,13 @@
 {
     "@@locale": "es",
-    "counterAppBarTitle": "Contador",
-    "@counterAppBarTitle": {
-        "description": "Texto mostrado en la AppBar de la página del contador"
-    }
+    "login": "Iniciar sesión",
+    "loginPage": "Inicio de sesión",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "textFormFieldEmptyError": "Este campo no puede estar vacío",
+    "youMustEnterAllTheFields": "Debes ingresar todos los datos",
+    "badCredentials": "Las credenciales no son validas",
+    "unknownError": "Error desconocido",
+    "validCredentials": "Credenciales validas",
+    "homePage": "Inicio"
 }

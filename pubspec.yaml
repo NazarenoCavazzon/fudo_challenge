@@ -8,12 +8,20 @@ environment:
 
 dependencies:
   bloc: ^8.1.2
+  client:
+    path: packages/client
+  data_persistence:
+    path: packages/data_persistence
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
   flutter_localizations:
     sdk: flutter
+  go_router: ^11.1.4
   intl: ^0.18.0
+  ui:
+    path: packages/ui
 
 dev_dependencies:
   bloc_test: ^9.1.4
@@ -25,3 +33,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/icons/

@@ -1,7 +1,13 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
+    "login": "Login",
+    "loginPage": "Login Page",
+    "username": "Username",
+    "password": "Password",
+    "youMustEnterAllTheFields": "You must enter all the fields",
+    "textFormFieldEmptyError": "This field cannot be empty",
+    "badCredentials": "The credentials are not valid",
+    "unknownError": "Unknown error",
+    "validCredentials": "Valid credentials",
+    "homePage": "Homepage"
 }
