@@ -1,5 +1,10 @@
 import 'package:client/client.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
+
+part 'post.g.dart';
+
+@HiveType(typeId: 0)
 
 /// Post object from the API.
 class Post extends Equatable {
@@ -31,14 +36,22 @@ class Post extends Equatable {
     };
   }
 
+  @HiveField(0)
+
   /// Id of the post.
   final int id;
+
+  @HiveField(1)
 
   /// The id of the user who made the post.
   final int userId;
 
+  @HiveField(2)
+
   /// The title of the post.
   final String title;
+
+  @HiveField(3)
 
   /// The body text of the post.
   final String body;

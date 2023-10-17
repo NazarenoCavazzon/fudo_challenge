@@ -9,5 +9,8 @@
     "badCredentials": "The credentials are not valid",
     "unknownError": "Unknown error",
     "validCredentials": "Valid credentials",
-    "homePage": "Homepage"
+    "homePage": "Homepage",
+    "offlineMode": "Offline Mode: No internet connection detected.",
+    "refreshPosts": "Refresh posts",
+    "noSearchResults": "No search results"
 }

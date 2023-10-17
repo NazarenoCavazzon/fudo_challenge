@@ -19,9 +19,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   go_router: ^11.1.4
+  internet_connection_checker: ^1.0.0+1
   intl: ^0.18.0
   ui:
     path: packages/ui
+  very_good_infinite_list: ^0.7.1
 
 dev_dependencies:
   bloc_test: ^9.1.4

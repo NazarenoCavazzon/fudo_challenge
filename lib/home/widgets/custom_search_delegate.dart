@@ -1,6 +1,24 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class CustomSearchDelegate extends SearchDelegate {
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fudo_challenge/home/cubit/home_cubit.dart';
+import 'package:fudo_challenge/l10n/l10n.dart';
+import 'package:very_good_infinite_list/very_good_infinite_list.dart';
+
+class CustomSearchDelegate extends SearchDelegate<void> {
+  CustomSearchDelegate({
+    required this.hint,
+    required this.cubit,
+  });
+
+  final String hint;
+  final HomeCubit cubit;
+  Timer? _debounce;
+
+  @override
+  String get searchFieldLabel => hint;
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     final theme = Theme.of(context);
@@ -19,8 +37,9 @@ class CustomSearchDelegate extends SearchDelegate {
       textTheme: const TextTheme(
         titleMedium: TextStyle(color: Colors.white, fontSize: 16),
       ),
-      inputDecorationTheme:
-          const InputDecorationTheme(border: InputBorder.none),
+      inputDecorationTheme: const InputDecorationTheme(
+        border: InputBorder.none,
+      ),
     );
   }
 
@@ -48,11 +67,82 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return SizedBox();
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      cubit.search(query);
+    });
+    return BlocConsumer<HomeCubit, HomeState>(
+      bloc: cubit,
+      listener: (context, state) {
+        if (state.isOffline || state.isError) {
+          close(context, null);
+        }
+      },
+      builder: (context, state) {
+        if (state.isSearching) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.black,
+            ),
+          );
+        } else if (state.searchResults.isEmpty) {
+          return Center(
+            child: Text(
+              context.l10n.noSearchResults,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 26,
+                color: Colors.black,
+              ),
+            ),
+          );
+        }
+
+        return InfiniteList(
+          itemCount: state.searchResults.length,
+          isLoading: state.isSearching,
+          separatorBuilder: (context, index) {
+            return Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              height: 1,
+              color: Colors.black45,
+            );
+          },
+          loadingBuilder: (context) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.black,
+                ),
+              ),
+            );
+          },
+          debounceDuration: const Duration(milliseconds: 300),
+          hasReachedMax: state.hasReachedMaxSearches,
+          onFetchData: () => cubit.search(query),
+          itemBuilder: (context, index) {
+            final post = state.posts[index];
+
+            return ListTile(
+              dense: true,
+              title: Text(
+                post.title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              subtitle: Text(post.body),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return SizedBox();
+    return buildResults(context);
   }
 }

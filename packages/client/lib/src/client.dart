@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:client/models/models.dart';
 import 'package:client/src/client_exceptions.dart';
-import 'package:http_interceptor/http_interceptor.dart' as http_interceptor;
+import 'package:http/http.dart' as http;
 
 /// The JSON serializable model for the API response.
 typedef JSON = Map<String, dynamic>;
@@ -11,7 +12,37 @@ typedef JSONLIST = List<JSON>;
 
 /// APP Client to manage the API requests.
 class Client {
-  late final http_interceptor.Client _httpClient;
+  /// Class constructor
+  Client() {
+    _httpClient = http.Client();
+  }
+
+  /// The URL Authority for the queries.
+  static const authority = 'jsonplaceholder.typicode.com';
+
+  /// The HTTP Client;
+  late final http.Client _httpClient;
+
+  /// This methods returns a list of posts
+  Future<List<Post>> getPosts({
+    required int limit,
+    int start = 0,
+    int? userId,
+  }) async {
+    final uri = Uri.https(authority, '/posts', {
+      '_limit': limit.toString(),
+      '_start': start.toString(),
+      if (userId != null) 'userId': userId.toString(),
+    });
+
+    final result = await _get<JSONLIST>(uri);
+
+    try {
+      return result.map(Post.fromMap).toList();
+    } on FormatException {
+      throw const SpecifiedTypeNotMatchedException();
+    }
+  }
 
   Future<T> _post<T>(
     Uri uri, {
@@ -19,7 +50,7 @@ class Client {
     Map<String, String>? queryParams,
     bool needsToken = true,
   }) async {
-    http_interceptor.Response response;
+    http.Response response;
 
     try {
       response = await _httpClient.post(
@@ -41,7 +72,7 @@ class Client {
     Uri uri, {
     bool needsToken = true,
   }) async {
-    http_interceptor.Response response;
+    http.Response response;
 
     try {
       response = await _httpClient.get(
@@ -58,53 +89,7 @@ class Client {
     return _handleResponse<T>(response);
   }
 
-  Future<T> _put<T>(
-    Uri uri, {
-    Map<String, dynamic>? body,
-    bool needsToken = true,
-  }) async {
-    http_interceptor.Response response;
-
-    try {
-      response = await _httpClient.put(
-        uri,
-        body: (body != null) ? jsonEncode(body) : null,
-        headers: {
-          ..._headersAlways,
-          'needs-token': '$needsToken',
-        },
-      );
-    } catch (_) {
-      throw HttpException();
-    }
-
-    return _handleResponse<T>(response);
-  }
-
-  Future<T> _delete<T>(
-    Uri uri, {
-    Map<String, dynamic>? body,
-    bool needsToken = true,
-  }) async {
-    http_interceptor.Response response;
-
-    try {
-      response = await _httpClient.delete(
-        uri,
-        body: (body != null) ? jsonEncode(body) : null,
-        headers: {
-          ..._headersAlways,
-          'needs-token': '$needsToken',
-        },
-      );
-    } catch (_) {
-      throw HttpException();
-    }
-
-    return _handleResponse<T>(response);
-  }
-
-  T _handleResponse<T>(http_interceptor.Response response) {
+  T _handleResponse<T>(http.Response response) {
     try {
       if (response is T) return response as T;
 
@@ -150,7 +135,7 @@ class Client {
 }
 
 /// A class to make it easier to handle the response from the API.
-extension Result on http_interceptor.Response {
+extension Result on http.Response {
   /// Returns true if the response is a success.
   bool get isSuccess => statusCode >= 200 && statusCode < 300;
 
