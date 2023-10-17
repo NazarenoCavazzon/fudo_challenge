@@ -1,6 +1,6 @@
-import 'package:client/client.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:json_placeholder_client/src/json_placeholder_client.dart';
 
 part 'post.g.dart';
 

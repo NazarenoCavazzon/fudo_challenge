@@ -18,20 +18,36 @@ class LoginCubit extends Cubit<LoginState> {
     required String username,
     required String password,
   }) async {
-    emit(state.copyWith(status: LoginStatus.loading));
+    emit(
+      state.copyWith(
+        status: LoginStatus.loading,
+      ),
+    );
 
     try {
       await Future<void>.delayed(const Duration(milliseconds: 500));
       if (username != allowedUser || password != allowedPassword) {
-        emit(state.copyWith(status: LoginStatus.badCredentials));
+        emit(
+          state.copyWith(
+            status: LoginStatus.badCredentials,
+          ),
+        );
         return;
       }
 
       await dataPersistenceRepository.setLoggedIn(status: true);
 
-      emit(state.copyWith(status: LoginStatus.success));
+      emit(
+        state.copyWith(
+          status: LoginStatus.success,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(status: LoginStatus.error));
+      emit(
+        state.copyWith(
+          status: LoginStatus.error,
+        ),
+      );
     }
   }
 }

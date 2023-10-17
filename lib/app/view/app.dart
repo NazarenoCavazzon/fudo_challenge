@@ -1,4 +1,3 @@
-import 'package:client/client.dart';
 import 'package:data_persistence/data_persistence.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +6,7 @@ import 'package:fudo_challenge/home/home.dart';
 import 'package:fudo_challenge/l10n/l10n.dart';
 import 'package:fudo_challenge/login/login.dart';
 import 'package:go_router/go_router.dart';
+import 'package:json_placeholder_client/json_placeholder_client.dart';
 
 class App extends StatefulWidget {
   const App({
@@ -28,7 +28,7 @@ class _AppState extends State<App> {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (context) => Client(),
+          create: (context) => JsonPlaceholderClient(),
         ),
         RepositoryProvider(
           create: (context) => widget.dataPersistenceRepository,

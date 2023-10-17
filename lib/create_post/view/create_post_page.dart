@@ -1,9 +1,9 @@
-import 'package:client/client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fudo_challenge/create_post/cubit/create_post_cubit.dart';
 import 'package:fudo_challenge/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
+import 'package:json_placeholder_client/json_placeholder_client.dart';
 import 'package:ui/ui.dart';
 
 class CreatePostPage extends StatelessWidget {
@@ -15,7 +15,7 @@ class CreatePostPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CreatePostCubit(
-        client: context.read<Client>(),
+        client: context.read<JsonPlaceholderClient>(),
       ),
       child: const CreatePostView(),
     );
@@ -41,17 +41,7 @@ class _CreatePostViewState extends State<CreatePostView> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: BlocListener<CreatePostCubit, CreatePostState>(
-          listener: (context, state) {
-            if (state.isSuccess) {
-              context.pop(true);
-            } else if (state.isError) {
-              CustomSnackbar.showToast(
-                context: context,
-                status: SnackbarStatus.error,
-                title: context.l10n.anErrorOcurredCreatingThePost,
-              );
-            }
-          },
+          listener: _blocListeners,
           child: Scaffold(
             appBar: CustomAppbar(title: context.l10n.createPost),
             body: Padding(
@@ -89,6 +79,9 @@ class _CreatePostViewState extends State<CreatePostView> {
                   ),
                   const Spacer(),
                   BlocBuilder<CreatePostCubit, CreatePostState>(
+                    buildWhen: (previous, current) {
+                      return previous.isLoading != current.isLoading;
+                    },
                     builder: (context, state) {
                       return CustomButton(
                         text: context.l10n.createPost,
@@ -107,6 +100,18 @@ class _CreatePostViewState extends State<CreatePostView> {
     );
   }
 
+  void _blocListeners(BuildContext context, CreatePostState state) {
+    if (state.isSuccess) {
+      context.pop(true);
+    } else if (state.isError) {
+      CustomSnackbar.showToast(
+        context: context,
+        status: SnackbarStatus.error,
+        title: context.l10n.anErrorOcurredCreatingThePost,
+      );
+    }
+  }
+
   String? onValidateField(String? value) {
     if (value == null || value.isEmpty) {
       return context.l10n.textFormFieldEmptyError;
@@ -115,11 +120,12 @@ class _CreatePostViewState extends State<CreatePostView> {
   }
 
   void createPost() {
-    if (_formKey.currentState!.validate()) {
-      context.read<CreatePostCubit>().createPost(
-            title: _titleController.text,
-            body: _bodyController.text,
-          );
-    }
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+
+    context.read<CreatePostCubit>().createPost(
+          title: _titleController.text,
+          body: _bodyController.text,
+        );
   }
 }

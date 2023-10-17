@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:client/models/models.dart';
-import 'package:client/src/client_exceptions.dart';
 import 'package:http/http.dart' as http;
+import 'package:json_placeholder_client/models/models.dart';
+import 'package:json_placeholder_client/src/json_placeholder_client_exceptions.dart';
 
 /// The JSON serializable model for the API response.
 typedef JSON = Map<String, dynamic>;
@@ -11,9 +11,9 @@ typedef JSON = Map<String, dynamic>;
 typedef JSONLIST = List<JSON>;
 
 /// APP Client to manage the API requests.
-class Client {
+class JsonPlaceholderClient {
   /// Class constructor
-  Client() {
+  JsonPlaceholderClient() {
     _httpClient = http.Client();
   }
 

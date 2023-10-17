@@ -13,8 +13,8 @@ enum HomeStatus {
 class HomeState extends Equatable {
   const HomeState({
     this.status = HomeStatus.initial,
-    this.posts = const <client_repository.Post>[],
-    this.searchResults = const <client_repository.Post>[],
+    this.posts = const <Post>[],
+    this.searchResults = const <Post>[],
     this.hasReachedMax = false,
     this.hasReachedMaxSearches = false,
   });
@@ -28,15 +28,15 @@ class HomeState extends Equatable {
   bool get isError => status == HomeStatus.error;
 
   final HomeStatus status;
-  final List<client_repository.Post> posts;
-  final List<client_repository.Post> searchResults;
+  final List<Post> posts;
+  final List<Post> searchResults;
   final bool hasReachedMax;
   final bool hasReachedMaxSearches;
 
   HomeState copyWith({
     HomeStatus? status,
-    List<client_repository.Post>? posts,
-    List<client_repository.Post>? searchResults,
+    List<Post>? posts,
+    List<Post>? searchResults,
     bool? hasReachedMax,
     bool? hasReachedMaxSearches,
   }) {

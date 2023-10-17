@@ -54,29 +54,7 @@ class _LoginViewState extends State<LoginView> {
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: BlocListener<LoginCubit, LoginState>(
-                listener: (context, state) {
-                  if (state.isBadCredentials) {
-                    CustomSnackbar.showToast(
-                      context: context,
-                      status: SnackbarStatus.error,
-                      title: context.l10n.badCredentials,
-                    );
-                  } else if (state.isError) {
-                    CustomSnackbar.showToast(
-                      context: context,
-                      status: SnackbarStatus.warning,
-                      title: context.l10n.unknownError,
-                    );
-                  } else if (state.isSuccess) {
-                    CustomSnackbar.showToast(
-                      context: context,
-                      status: SnackbarStatus.success,
-                      title: context.l10n.validCredentials,
-                    );
-
-                    context.goNamed(HomePage.route);
-                  }
-                },
+                listener: _blocListener,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -103,6 +81,9 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     const SizedBox(height: 40),
                     BlocBuilder<LoginCubit, LoginState>(
+                      buildWhen: (previous, current) {
+                        return previous.isLoading != current.isLoading;
+                      },
                       builder: (context, state) {
                         return CustomButton(
                           text: context.l10n.login,
@@ -121,6 +102,30 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
+  void _blocListener(BuildContext context, LoginState state) {
+    if (state.isBadCredentials) {
+      CustomSnackbar.showToast(
+        context: context,
+        status: SnackbarStatus.error,
+        title: context.l10n.badCredentials,
+      );
+    } else if (state.isError) {
+      CustomSnackbar.showToast(
+        context: context,
+        status: SnackbarStatus.warning,
+        title: context.l10n.unknownError,
+      );
+    } else if (state.isSuccess) {
+      CustomSnackbar.showToast(
+        context: context,
+        status: SnackbarStatus.success,
+        title: context.l10n.validCredentials,
+      );
+
+      context.goNamed(HomePage.route);
+    }
+  }
+
   String? onValidateField(String? value) {
     if (value == null || value.isEmpty) {
       return context.l10n.textFormFieldEmptyError;
@@ -129,11 +134,12 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void login() {
-    if (_formKey.currentState!.validate()) {
-      context.read<LoginCubit>().login(
-            username: _usernameController.text,
-            password: _passwordController.text,
-          );
-    }
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+
+    context.read<LoginCubit>().login(
+          username: _usernameController.text,
+          password: _passwordController.text,
+        );
   }
 }

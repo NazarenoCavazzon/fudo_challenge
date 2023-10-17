@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:client/models/models.dart';
 import 'package:data_persistence/src/data_persistence_exceptions.dart';
 import 'package:hive/hive.dart';
+import 'package:json_placeholder_client/json_placeholder_client.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// This repository handles all the methods regarding to the persistence of data

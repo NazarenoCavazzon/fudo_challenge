@@ -50,6 +50,7 @@ class CustomSearchDelegate extends SearchDelegate<void> {
         icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
+          cubit.clearSearch();
         },
       ),
     ];

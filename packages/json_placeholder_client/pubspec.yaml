@@ -1,5 +1,5 @@
-name: client
-description: A sample command-line application.
+name: json_placeholder_client
+description: This repository handles all the client requests to the json placeholder API.
 version: 1.0.0
 publish_to: none
 
@@ -11,7 +11,6 @@ dependencies:
   equatable: ^2.0.5
   hive: ^2.2.3
   http: ^1.1.0
-  # path: ^1.8.0
 
 dev_dependencies:
   hive_generator: ^2.0.1

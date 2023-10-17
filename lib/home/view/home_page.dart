@@ -1,4 +1,3 @@
-import 'package:client/client.dart';
 import 'package:data_persistence/data_persistence.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +7,7 @@ import 'package:fudo_challenge/home/widgets/widgets.dart';
 import 'package:fudo_challenge/l10n/l10n.dart';
 import 'package:fudo_challenge/login/login.dart';
 import 'package:go_router/go_router.dart';
+import 'package:json_placeholder_client/json_placeholder_client.dart';
 import 'package:ui/ui.dart';
 import 'package:very_good_infinite_list/very_good_infinite_list.dart';
 
@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeCubit(
         dataPersistenceRepository: context.read<DataPersistenceRepository>(),
-        client: context.read<Client>(),
+        jsonPlaceholderClient: context.read<JsonPlaceholderClient>(),
       )..init(),
       child: const HomeView(),
     );
