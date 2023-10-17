@@ -58,6 +58,7 @@ class _CreatePostViewState extends State<CreatePostView> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
+                  const Spacer(),
                   TextFormField(
                     controller: _titleController,
                     decoration: InputDecoration(
@@ -77,6 +78,14 @@ class _CreatePostViewState extends State<CreatePostView> {
                       prefixIcon: const Icon(Icons.description),
                     ),
                     validator: onValidateField,
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    context.l10n.postCreationWarning,
+                    style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.black54,
+                    ),
                   ),
                   const Spacer(),
                   BlocBuilder<CreatePostCubit, CreatePostState>(

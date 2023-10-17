@@ -17,5 +17,6 @@
     "title": "Titulo",
     "body": "Contenido",
     "postHasBeenCreated": "¡El post se creo correctamente!",
-    "anErrorOcurredCreatingThePost": "Ocurrio un error creando el post"
+    "anErrorOcurredCreatingThePost": "Ocurrio un error creando el post",
+    "postCreationWarning": "Importante: el recurso no se actualizará realmente en el servidor, pero será falsificado como si lo fuera."
 }

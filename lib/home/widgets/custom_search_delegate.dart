@@ -69,6 +69,7 @@ class CustomSearchDelegate extends SearchDelegate<void> {
   Widget buildResults(BuildContext context) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (query.isEmpty) return;
       cubit.search(query);
     });
     return BlocConsumer<HomeCubit, HomeState>(

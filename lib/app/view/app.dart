@@ -51,6 +51,7 @@ class _AppState extends State<App> {
 
     return GoRouter(
       redirect: (context, state) {
+        final isLogged = widget.dataPersistenceRepository.isLoggedIn;
         if (!isLogged) {
           return LoginPage.route;
         }
