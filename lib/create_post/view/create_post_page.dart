@@ -35,6 +35,13 @@ class _CreatePostViewState extends State<CreatePostView> {
   final _bodyController = TextEditingController();
 
   @override
+  void dispose() {
+    _titleController.dispose();
+    _bodyController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,

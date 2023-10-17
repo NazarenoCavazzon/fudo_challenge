@@ -40,13 +40,19 @@ class CustomSnackbar {
     showTopSnackBar(
       Overlay.of(context),
       Material(
+        color: Colors.transparent,
         child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8),
           padding: const EdgeInsets.symmetric(
             horizontal: 32,
             vertical: 16,
           ),
+          decoration: BoxDecoration(
+            border: Border.all(color: status.iconColor),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            color: status.backgroundColor,
+          ),
           width: double.infinity,
-          color: status.backgroundColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -71,7 +77,7 @@ class CustomSnackbar {
           ),
         ),
       ),
-      padding: const EdgeInsets.only(top: 52),
+      padding: const EdgeInsets.only(top: kToolbarHeight + 15),
       dismissType: DismissType.onSwipe,
       curve: Curves.easeOutCubic,
       animationDuration: const Duration(milliseconds: 300),
