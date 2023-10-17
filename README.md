@@ -9,9 +9,11 @@ This project was a test given by [FUDO](https://fu.do/es-ar/).
 
 ---
 
+![Recording-2023-10-17-113511](https://github.com/NazarenoCavazzon/fudo_challenge/assets/49735945/9bb004c6-c500-4ed4-bb0a-e1ce312e7c96)
+
 ## Getting Started 🚀
 
-This project contains 3 flavors:
+To download the apk you can use the next [link](https://drive.google.com/file/d/1E0MRUI4b1TqPBTIk0t8PjgG8pOIltUC_/view?usp=sharing). This project contains 3 flavors:
 
 - development
 - staging
@@ -29,8 +31,6 @@ $ flutter run --flavor staging --target lib/main_staging.dart
 # Production
 $ flutter run --flavor production --target lib/main_production.dart
 ```
-
-To download the apk you can use the next [link](https://drive.google.com/file/d/1t2Gp_8tPmlYtZQaNZ2sLoRnOwtocX-sk/view?usp=sharing).
 
 _\*Fudo Challenge works on iOS and Android._
 
