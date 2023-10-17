@@ -21,6 +21,10 @@ class HomeCubit extends Cubit<HomeState> {
   static const pagination = 15;
   static const searchUsername = 'Leanne Graham';
 
+  Future<void> logout() async {
+    await dataPersistenceRepository.setLoggedIn();
+  }
+
   Future<void> init() async {
     emit(state.copyWith(status: HomeStatus.loading));
     try {

@@ -44,6 +44,30 @@ class Client {
     }
   }
 
+  /// This method creates a new post with the specified parameters and returns a
+  /// [Post] object.
+  Future<Post> createPost({
+    required String title,
+    required String body,
+  }) async {
+    final uri = Uri.https(authority, '/posts');
+
+    final result = await _post<JSON>(
+      uri,
+      body: {
+        'title': title,
+        'body': body,
+        'userId': 1,
+      },
+    );
+
+    try {
+      return Post.fromMap(result);
+    } on FormatException {
+      throw const SpecifiedTypeNotMatchedException();
+    }
+  }
+
   Future<T> _post<T>(
     Uri uri, {
     Map<String, dynamic>? body,

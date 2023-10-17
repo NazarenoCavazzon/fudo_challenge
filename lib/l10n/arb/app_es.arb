@@ -12,5 +12,10 @@
     "homePage": "Inicio",
     "offlineMode": "Offline Mode: No internet connection detected.",
     "refreshPosts": "Refrescar posteos",
-    "noSearchResults": "No hay resultados"
+    "noSearchResults": "No hay resultados",
+    "createPost": "Crear post",
+    "title": "Titulo",
+    "body": "Contenido",
+    "postHasBeenCreated": "¡El post se creo correctamente!",
+    "anErrorOcurredCreatingThePost": "Ocurrio un error creando el post"
 }

@@ -2,9 +2,12 @@ import 'package:client/client.dart';
 import 'package:data_persistence/data_persistence.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fudo_challenge/create_post/create_post.dart';
 import 'package:fudo_challenge/home/cubit/home_cubit.dart';
 import 'package:fudo_challenge/home/widgets/widgets.dart';
 import 'package:fudo_challenge/l10n/l10n.dart';
+import 'package:fudo_challenge/login/login.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ui/ui.dart';
 import 'package:very_good_infinite_list/very_good_infinite_list.dart';
 
@@ -47,6 +50,15 @@ class _HomeViewState extends State<HomeView> {
       ),
       appBar: CustomAppbar(
         title: context.l10n.homePage,
+        preffixIcon: IconButton(
+          padding: EdgeInsets.zero,
+          onPressed: () => onLogout(context),
+          icon: const Icon(
+            Icons.logout,
+            color: Colors.white,
+            size: 24,
+          ),
+        ),
         suffixIcon: IconButton(
           padding: EdgeInsets.zero,
           onPressed: () => onSearchPressed(context),
@@ -165,7 +177,23 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  void onFABPressed(BuildContext context) {}
+  Future<void> onFABPressed(BuildContext context) async {
+    final result = await context.pushNamed<bool>(CreatePostPage.route);
+
+    if ((result ?? false) && mounted) {
+      CustomSnackbar.showToast(
+        context: context,
+        status: SnackbarStatus.success,
+        title: context.l10n.postHasBeenCreated,
+      );
+    }
+  }
+
+  Future<void> onLogout(BuildContext context) async {
+    await context.read<HomeCubit>().logout();
+    if (!mounted) return;
+    context.goNamed(LoginPage.route);
+  }
 
   void onSearchPressed(BuildContext context) {
     final cubit = context.read<HomeCubit>();

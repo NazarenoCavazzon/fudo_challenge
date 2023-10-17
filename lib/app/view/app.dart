@@ -2,6 +2,7 @@ import 'package:client/client.dart';
 import 'package:data_persistence/data_persistence.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fudo_challenge/create_post/create_post.dart';
 import 'package:fudo_challenge/home/home.dart';
 import 'package:fudo_challenge/l10n/l10n.dart';
 import 'package:fudo_challenge/login/login.dart';
@@ -46,14 +47,16 @@ class _AppState extends State<App> {
   }
 
   GoRouter router(BuildContext context) {
+    final isLogged = widget.dataPersistenceRepository.isLoggedIn;
+
     return GoRouter(
       redirect: (context, state) {
-        if (widget.dataPersistenceRepository.isLoggedIn) {
-          return HomePage.route;
+        if (!isLogged) {
+          return LoginPage.route;
         }
         return null;
       },
-      initialLocation: LoginPage.route,
+      initialLocation: isLogged ? HomePage.route : LoginPage.route,
       routes: <GoRoute>[
         GoRoute(
           path: LoginPage.route,
@@ -64,6 +67,11 @@ class _AppState extends State<App> {
           path: HomePage.route,
           name: HomePage.route,
           builder: (context, state) => HomePage(key: state.pageKey),
+        ),
+        GoRoute(
+          path: CreatePostPage.route,
+          name: CreatePostPage.route,
+          builder: (context, state) => CreatePostPage(key: state.pageKey),
         ),
       ],
     );
